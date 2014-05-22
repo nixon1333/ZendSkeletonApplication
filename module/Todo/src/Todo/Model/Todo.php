@@ -16,7 +16,7 @@ namespace Todo\Model;
      public function exchangeArray($data)
      {
          $this->id     = (!empty($data['id'])) ? $data['id'] : null;
-         $this->name = (!empty($data['todo'])) ? $data['todo'] : null;
+         $this->name = (!empty($data['todo'])) ? $data['todo'] : (!empty($data['name'])) ?$data['name']:null;
      }
 
      // Add content to these methods:
