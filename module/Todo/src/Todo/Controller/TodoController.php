@@ -44,7 +44,44 @@ namespace Todo\Controller;
 
      public function editAction()
      {
-                  return new ViewModel(array('greet' => 'Hello Todo List!'));
+         $id = (int) $this->params()->fromRoute('id', 0);
+         if (!$id) {
+             return $this->redirect()->toRoute('todo', array(
+                 'action' => 'add'
+             ));
+         }
+
+         // Get the todo with the specified id.  An exception is thrown
+         // if it cannot be found, in which case go to the index page.
+         try {
+             $todo = $this->getTodoTable()->getTodo($id);
+         }
+         catch (\Exception $ex) {
+             return $this->redirect()->toRoute('todo', array(
+                 'action' => 'index'
+             ));
+         }
+
+         $form  = new TodoForm();
+         $form->bind($todo);
+         $form->get('submit')->setAttribute('value', 'Edit');
+
+         $request = $this->getRequest();
+         if ($request->isPost()) {
+             $form->setInputFilter($todo->getInputFilter());
+             $form->setData($request->getPost());
+
+             if ($form->isValid()) {
+                 $this->getTodoTable()->saveTodo($todo);
+
+                 // Redirect to list of todos
+                 return $this->redirect()->toRoute('todo');
+             }
+         }
+         return array(
+             'id' => $id,
+             'form' => $form,
+         );
      }
 
      public function deleteAction()
