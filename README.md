@@ -1,4 +1,4 @@
 ZendSkeletonApplication
 =======================
 
-zend framework 2 developemtn
+zend framework 2 development
