@@ -86,6 +86,28 @@ namespace Todo\Controller;
 
      public function deleteAction()
      {
+         $id = (int) $this->params()->fromRoute('id', 0);
+         if (!$id) {
+             return $this->redirect()->toRoute('todo');
+         }
+
+         $request = $this->getRequest();
+         if ($request->isPost()) {
+             $del = $request->getPost('del', 'No');
+
+             if ($del == 'Yes') {
+                 $id = (int) $request->getPost('id');
+                 $this->getTodoTable()->deleteTodo($id);
+             }
+
+             // Redirect to list of todo
+             return $this->redirect()->toRoute('todo');
+         }
+
+         return array(
+             'id'    => $id,
+             'todo' => $this->getTodoTable()->getTodo($id)
+         );
      }
      
      public function getTodoTable()
