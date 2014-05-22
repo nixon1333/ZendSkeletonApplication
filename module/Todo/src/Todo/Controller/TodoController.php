@@ -29,7 +29,7 @@ namespace Todo\Controller;
             $todo = new Todo();
             $form->setInputFilter($todo->getInputFilter());
             $form->setData($request->getPost());
-
+            
             if ($form->isValid()) {
                 $todo->exchangeArray($form->getData());
                 $this->getTodoTable()->saveTodo($todo);

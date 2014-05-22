@@ -16,7 +16,12 @@ namespace Todo\Model;
      public function exchangeArray($data)
      {
          $this->id     = (!empty($data['id'])) ? $data['id'] : null;
-         $this->name = (!empty($data['todo'])) ? $data['todo'] : (!empty($data['name'])) ?$data['name']:null;
+         $this->name = (!empty($data['todo'])) ? $data['todo'] :null;
+         
+         if($this->name == NULL)
+         {
+             $this->name = (!empty($data['name'])) ? $data['name'] :null;
+         }
      }
 
      // Add content to these methods:
@@ -39,7 +44,7 @@ namespace Todo\Model;
              ));
 
              $inputFilter->add(array(
-                 'name'     => 'Todo',
+                 'name'     => 'todo',
                  'required' => true,
                  'filters'  => array(
                      array('name' => 'StripTags'),
