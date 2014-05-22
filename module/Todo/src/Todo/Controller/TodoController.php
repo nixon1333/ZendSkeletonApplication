@@ -7,8 +7,14 @@ namespace Todo\Controller;
 
  class TodoController extends AbstractActionController
  {
+     
+     protected $todoTable;
+     
      public function indexAction()
      {
+         return new ViewModel(array(
+             'todo' => $this->getTodoTable()->fetchAll()
+         ));
      }
 
      public function addAction()
@@ -22,5 +28,14 @@ namespace Todo\Controller;
 
      public function deleteAction()
      {
+     }
+     
+     public function getTodoTable()
+     {
+         if (!$this->todoTable) {
+             $sm = $this->getServiceLocator();
+             $this->todoTable = $sm->get('Todo\Model\todoTable');
+         }
+         return $this->todoTable;
      }
  }
